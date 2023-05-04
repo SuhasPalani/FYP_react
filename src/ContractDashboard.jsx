@@ -1,9 +1,10 @@
-// 
 import React, { useState, useEffect } from 'react';
 import './ContractDashboard.css';
 
 function ContractDashboard() {
   const [contracts, setContracts] = useState([]);
+  const [newServiceName, setNewServiceName] = useState('');
+  const [newServiceLocation, setNewServiceLocation] = useState('');
 
   // Fetch contracts from API
   useEffect(() => {
@@ -13,45 +14,46 @@ function ContractDashboard() {
       .catch(error => console.error(error));
   }, []);
 
-  // Handler for "Run All Tests" button
-  const handleRunAllTests = () => {
-    fetch('/api/tests/run-all')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
-  };
-
-  // Handler for "View Reports" button
-  const handleViewReports = () => {
-    window.location.href = '/reports';
-  };
-
-  // Handler for "Add Contract" button
+  // Handler for adding a new contract
   const handleAddContract = () => {
     const newContract = {
-      id: 4,
-      serviceName: 'New Service',
-      status: 'Pending',
-      lastTested: '2023-04-09'
+      id: contracts.length + 1,
+      serviceName: newServiceName,
+      location: newServiceLocation,
+      
     };
     setContracts([...contracts, newContract]);
+    setNewServiceName('');
+    setNewServiceLocation('');
   };
 
   return (
     <div className="dashboard">
       <h1>Contract Testing Dashboard</h1>
-      <div className="dashboard-buttons">
-        <button onClick={handleRunAllTests}>Run All Tests</button>
-        <button onClick={handleViewReports}>View Reports</button>
-        <button onClick={handleAddContract}>Add Contract</button>
+      <div className="dashboard-form">
+        <label htmlFor="new-service-name">Service Name:</label>
+        <input
+          type="text"
+          id="new-service-name"
+          value={newServiceName}
+          onChange={e => setNewServiceName(e.target.value)}
+        />
+        <label htmlFor="new-service-location">Service Location:</label>
+        <input
+          type="text"
+          id="new-service-location"
+          value={newServiceLocation}
+          onChange={e => setNewServiceLocation(e.target.value)}
+        />
+        <button onClick={handleAddContract}>Download Contract</button>
       </div>
       <table className="dashboard-table">
         <thead>
           <tr>
             <th>Contract ID</th>
             <th>Service Name</th>
-            <th>Status</th>
-            <th>Last Tested</th>
+            <th>Service Location</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -59,8 +61,8 @@ function ContractDashboard() {
             <tr key={contract.id}>
               <td>{contract.id}</td>
               <td>{contract.serviceName}</td>
-              <td>{contract.status}</td>
-              <td>{contract.lastTested}</td>
+              <td>{contract.location}</td>
+              
             </tr>
           ))}
         </tbody>
