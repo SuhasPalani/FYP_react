@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './ContractDashboard.css';
+import { Link } from 'react-router-dom';
+
+
+
 
 function ContractDashboard() {
   const [contracts, setContracts] = useState([]);
@@ -67,8 +71,16 @@ function ContractDashboard() {
           ))}
         </tbody>
       </table>
+      
+      <div className="dashboard-header">
+        <button className="add-contract-button">
+          <Link to="/add-contract">Add Contract</Link>
+        </button>
+      </div>
+
     </div>
   );
 }
 
 export default ContractDashboard;
+
