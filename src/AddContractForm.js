@@ -58,6 +58,7 @@ function AddContractForm({ onAddContract }) {
     onAddContract(newServiceName, newServiceDescription);
     setNewServiceName('');
     setNewServiceDescription('');
+    
   };
 
   return (
